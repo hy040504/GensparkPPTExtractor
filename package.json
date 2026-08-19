@@ -1,0 +1,52 @@
+{
+  "name": "genspark-ppt-extractor",
+  "version": "1.0.0",
+  "description": "Genspark / HTML 슬라이드 사이트를 장면별 캡처한 뒤 PPTX로 묶는 TypeScript CLI",
+  "type": "module",
+  "bin": {
+    "genspark-ppt": "./cli/extract.ts"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsx cli/extract.ts",
+    "extract": "tsx cli/extract.ts",
+    "auto:manager": "tsx cli/auto-manager.ts",
+    "manager": "tsx cli/auto-manager.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx cli/extract.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "postinstall": "playwright install chromium"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "genspark",
+    "slides",
+    "pptx",
+    "playwright",
+    "screenshot"
+  ],
+  "license": "MIT",
+  "author": "hy040504",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hy040504/GensparkPPTExtractor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hy040504/GensparkPPTExtractor/issues"
+  },
+  "homepage": "https://github.com/hy040504/GensparkPPTExtractor#readme",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "pdf-lib": "^1.17.1",
+    "playwright": "^1.55.0",
+    "pptxgenjs": "^3.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

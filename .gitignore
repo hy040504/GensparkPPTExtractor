@@ -1,0 +1,10 @@
+node_modules/
+dist/
+output/
+*.log
+.DS_Store
+Thumbs.db
+.env
+*.cookies.json
+_inspect_slides.py
+
