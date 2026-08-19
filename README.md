@@ -27,6 +27,9 @@ Genspark 내장 보내기(PPTX/PDF)는 CSS 그라데이션, 웹폰트, 절대 �
 
 Node.js를 설치하지 않아도 됩니다. **파일 하나만** 다른 Windows PC로 복사해서 바로 실행할 수 있습니다.
 
+- 미리 빌드된 파일: [Releases의 GensparkPPT.exe](https://github.com/hy040504/GensparkPPTExtractor/releases/latest)
+- 직접 빌드:
+
 ```bash
 npm run build:exe
 ```
