@@ -89,6 +89,7 @@ export function createExtractorClient(options: ExtractorClientOptions = {}): Ext
 export { extractSlides } from "./slides/extract.js";
 export { loadSlideDeck } from "./slides/fetch.js";
 export { parseSlideRange, parseSlideUrl } from "./slides/parse-url.js";
+export { isPackaged, launchChromium } from "./slides/browser.js";
 export { captureSlides } from "./slides/capture.js";
 export { rewriteSlideHtml, saveSlideHtml } from "./slides/html.js";
 export { buildPptx } from "./export/pptx.js";

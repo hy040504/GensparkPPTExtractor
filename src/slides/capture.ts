@@ -8,11 +8,12 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { chromium, type Page } from "playwright";
+import { type Page } from "playwright";
 import { log } from "../logger.js";
 import { errorMessage } from "../utils.js";
 import type { ExtractOptions } from "../types/extract.js";
 import type { CapturedSlide, NormalizedSlide, SlideDeck } from "../types/slides.js";
+import { launchChromium } from "./browser.js";
 import { SLIDE_FONT_HREFS } from "./constants.js";
 import { padSlideName, rewriteSlideHtml } from "./html.js";
 import { httpGetBuffer } from "./http.js";
@@ -34,7 +35,7 @@ export async function captureSlides(
   const imageDir = path.join(options.outputDir, "images");
   await mkdir(imageDir, { recursive: true });
 
-  const browser = await chromium.launch({ headless: !options.headed });
+  const browser = await launchChromium(options.headed);
   const captured: CapturedSlide[] = [];
 
   try {

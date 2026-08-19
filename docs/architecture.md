@@ -20,6 +20,7 @@
 | 슬라이드 도메인 | `src/slides/` | URL 파싱, API, HTML 보정, 캡처, 파이프라인 |
 | 산출물 | `src/export/` | PPTX / PDF. 캡처 PNG 를 입력으로만 받는다 |
 | CLI | `cli/auto-manager.ts`, `cli/extract.ts` | 인터랙티브 매니저 / 일회성 인자 CLI |
+| 단일 exe | `scripts/build-exe.mjs` | tsc + 프로덕션 deps + caxa. 내장 Chromium 은 넣지 않음 |
 
 ## slides 모듈
 

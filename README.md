@@ -9,19 +9,60 @@
 [![Playwright](https://img.shields.io/badge/Playwright-Chromium-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-[시작하기](#설치) · [매니저](#대화형-매니저) · [CLI](#일회성-cli) · [라이브러리](#코드에서-쓰기) · [구조](#프로젝트-구조)
+[EXE로 쓰기](#windows-단일-exe) · [소스 설치](#소스에서-설치) · [매니저](#대화형-매니저) · [CLI](#일회성-cli) · [구조](#프로젝트-구조)
 
 </div>
 
 ---
 
-Genspark 내장 보내기(PPTX/PDF)는 CSS 그라데이션, 웹폰트, 절대 좌표 레이아웃을 자주 깨뜨립니다. 이 도구는 **포맷을 억지로 변환하지 않고**, Chromium으로 장면을 렌더한 뒤 픽셀 단위로 캡처합니다.
+Genspark 내장 보내기(PPTX/PDF)는 CSS 그라데이션, 웹폰트, 절대 좌표 레이아웃을 자주 깨뜨립니다. 이 도구는 **포맷을 억지로 변환하지 않고**, 브라우저로 장면을 렌더한 뒤 픽셀 단위로 캡처합니다.
 
 | 내장 보내기 | 이 도구 |
 | --- | --- |
 | 폰트 어긋남, 그라데이션 소실 | 브라우저 미리보기와 동일 |
 | 복잡한 HTML → 네이티브 shape | 장면 PNG를 슬라이드에 가득 채움 |
 | 유료 플랜이 필요한 경우 있음 | 공개 링크만 있으면 로컬에서 추출 |
+
+## Windows 단일 EXE
+
+Node.js를 설치하지 않아도 됩니다. **파일 하나만** 다른 Windows PC로 복사해서 바로 실행할 수 있습니다.
+
+```bash
+npm run build:exe
+```
+
+결과: `release/GensparkPPT.exe` (약 47MB)
+
+1. exe를 USB·메신저·폴더 복사로 옮깁니다.
+2. 탐색기에서 더블클릭합니다. 처음 한 번은 압축을 풉니다.
+3. 링크를 입력하면 PPT가 만들어집니다. 저장 위치는 실행한 폴더의 `output/`입니다.
+
+| 그 PC에 필요한 것 | 이유 |
+| --- | --- |
+| Windows 10/11 **64비트** | 이 exe는 Windows x64용입니다 |
+| **Edge 또는 Chrome** | 장면 캡처에 씁니다. Win10/11에는 보통 Edge가 있습니다 |
+| **인터넷** | Genspark에서 슬라이드를 받습니다 |
+
+- Mac/Linux에서는 실행되지 않습니다.
+- Chromium을 exe 안에 넣지 않습니다. 넣으면 200MB를 넘습니다.
+- 서명되지 않아서 SmartScreen이 한 번 막을 수 있습니다. **추가 정보 → 실행**이면 됩니다.
+- 강제로 내장 Chromium을 쓰려면 개발 환경에서 `GENSPARK_BROWSER=chromium`을 사용하세요.
+
+## 소스에서 설치
+
+Node.js 20 이상이 필요합니다.
+
+```bash
+git clone https://github.com/hy040504/GensparkPPTExtractor.git
+cd GensparkPPTExtractor
+npm install
+```
+
+`postinstall`에서 Playwright Chromium을 설치합니다. 실패하면:
+
+```bash
+npx playwright install chromium
+```
 
 ## 지원 URL
 
@@ -46,24 +87,8 @@ flowchart LR
 1. URL에서 `project_id`를 읽습니다.
 2. `/api/project/slide_data`로 장면 HTML을 받습니다.
 3. 상대 경로 CSS·이미지를 로컬로 받습니다.
-4. Playwright(Chromium)가 디자인 해상도(기본 1920×1080)로 PNG를 찍습니다.
+4. Edge/Chrome(또는 내장 Chromium)이 디자인 해상도(기본 1920×1080)로 PNG를 찍습니다.
 5. `pptxgenjs`가 16:9 전체 화면 이미지 PPT를 만듭니다.
-
-## 설치
-
-Node.js 20 이상이 필요합니다.
-
-```bash
-git clone https://github.com/hy040504/GensparkPPTExtractor.git
-cd GensparkPPTExtractor
-npm install
-```
-
-`postinstall`에서 Playwright Chromium을 설치합니다. 실패하면:
-
-```bash
-npx playwright install chromium
-```
 
 ## 대화형 매니저
 
@@ -154,6 +179,9 @@ console.log(result.pptxPath);
 cli/                  인터랙티브·일회성 CLI
   auto-manager.ts
   extract.ts
+  launch-manager.ts   단일 exe 진입점
+scripts/
+  build-exe.mjs       Windows exe 패키징
 src/
   index.ts            팩토리 + 공개 API
   utils.ts            공통 헬퍼
@@ -173,7 +201,7 @@ docs/architecture.md
 - 공개된 프로젝트 링크, 또는 **본인 계정 Cookie**가 있는 프로젝트만 추출하세요.
 - 폰트가 깨지면 `--wait 4000`으로 대기 시간을 늘리세요.
 - 한글은 Pretendard / Noto Sans KR 웹폰트를 주입해 렌더합니다.
-- `output/` 산출물과 Cookie는 git에 올리지 않습니다.
+- `output/`, `release/`, Cookie는 git에 올리지 않습니다.
 
 ## 라이선스
 

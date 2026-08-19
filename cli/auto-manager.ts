@@ -23,6 +23,7 @@ import {
   printSuccess,
   printWarning
 } from "../src/cli-ui.js";
+import { isPackaged } from "../src/slides/browser.js";
 import { extractSlides } from "../src/slides/extract.js";
 import { parseSlideRange } from "../src/slides/parse-url.js";
 import type { ExtractProgress, ExtractResult, OutputFormat } from "../src/types/extract.js";
@@ -53,6 +54,9 @@ async function run(): Promise<void> {
 
   printSection("\n--- 📊 Genspark 슬라이드 PPT 추출 매니저 (TS) ---");
   printInfo("링크를 입력하면 각 장면을 캡처해 PPTX로 만듭니다.");
+  if (isPackaged()) {
+    printInfo("📦 단일 실행 파일 모드 · Windows Edge/Chrome 로 장면을 렌더합니다.");
+  }
   printInfo(`⚙️  기본 설정: 해상도 ${settings.scale}x · 포맷 ${settings.formats.join(",")} · 출력 ${settings.outputDir}\n`);
 
   const initialUrl = process.argv.slice(2).find((arg) => !arg.startsWith("-"));
@@ -95,6 +99,10 @@ async function run(): Promise<void> {
   } catch (err) {
     printErrorMessage(`\n❌ 오류 발생: ${errorMessage(err)}`);
   } finally {
+    // 탐색기에서 exe 를 더블클릭하면 창이 바로 닫히므로 한 번 멈춰 준다.
+    if (isPackaged()) {
+      await rl.question(color("\n종료하려면 Enter 를 누르세요...", ANSI.gray));
+    }
     rl.close();
   }
 }

@@ -16,6 +16,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "tsx cli/extract.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build:exe": "node scripts/build-exe.mjs",
     "postinstall": "playwright install chromium"
   },
   "engines": {
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "caxa": "^3.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
